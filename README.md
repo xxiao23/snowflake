@@ -5,7 +5,7 @@
 0. Install [Presto](https://prestodb.io/docs/current/installation.html).
 1. Install [Java SDK](https://www.oracle.com/java/technologies/javase-jdk15-downloads.html).
 ```
-export CLASSPATH=/Users/mrxiangxiao/Downloads/presto-jdbc-0.235.1.jar
+export JAVA_HOME=$(/usr/libexec/java_home)
 ```
 2. Download [Presto JDBC jar](https://repo1.maven.org/maven2/com/facebook/presto/presto-jdbc/0.241/presto-jdbc-0.241.jar) and put it in CLASSPATH. Make Sure JDBC jar version matches your presto server version.
 ```
