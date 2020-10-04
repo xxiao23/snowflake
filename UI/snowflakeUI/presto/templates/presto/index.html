@@ -1,0 +1,13 @@
+{% if result %}
+    <table>
+    {% for table in result %}
+        <tr>
+            {% for attr in table %}
+            <th>{{ attr }}</th>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+{% else %}
+    <p>No system tables exist.</p>
+{% endif %}
