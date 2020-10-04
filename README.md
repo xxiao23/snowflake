@@ -2,6 +2,7 @@
 
 ## Running Presto
 
+0. Install [Presto](https://prestodb.io/docs/current/installation.html).
 1. Install [Java SDK](https://www.oracle.com/java/technologies/javase-jdk15-downloads.html).
 ```
 export CLASSPATH=/Users/mrxiangxiao/Downloads/presto-jdbc-0.235.1.jar
