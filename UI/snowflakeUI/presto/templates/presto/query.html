@@ -1,0 +1,45 @@
+{# Load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'presto/grid.css' %}">
+
+<div class="container">
+    <div class="row">
+        <div class="w-100 p-3" style="        background-color: #ffffff;">
+            <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                query
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div style="height: 800px; background-color: #ffffff;">
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    {% if result %}
+                    <table>
+                        {% for table in result %}
+                        <tr>
+                            {% for attr in table %}
+                            <th>{{ attr }}</th>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    {% else %}
+                    <p>No system tables exist.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>

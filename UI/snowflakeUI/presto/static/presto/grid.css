@@ -1,0 +1,25 @@
+body {
+    margin: 2em 1em;
+}
+
+h2, p {
+    text-align: center;
+}
+
+.example .container, .container-fluid {
+    border: 4px solid #000;
+    margin-bottom: 2em;
+}
+
+.row {
+    border: 4px solid #aaa;
+}
+
+.col-sm-6 {
+    border: 4px solid #e2e2e2;
+}
+
+strong {
+    color: #007aeb;
+    font-size: 32px;
+}
