@@ -1,6 +1,7 @@
-from django.http import HttpResponse
+﻿from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.template import loader
+from django.conf.urls import url
 
 import jaydebeapi
 
@@ -20,15 +21,23 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 def query(request):
-    conn = jaydebeapi.connect('com.facebook.presto.jdbc.PrestoDriver',
-                              'jdbc:presto://localhost:8080/system/information_schema',
-                              {'user': 'root', 'password': ''})
-    curs = conn.cursor()
-    curs.execute('SELECT * FROM tables')
-    result = curs.fetchall()
+    context = {}
+    return render(request, "presto/query.html")
 
-    template = loader.get_template('presto/query.html')
-    context = {
-        'result': result,
-    }
-    return HttpResponse(template.render(context, request))
+def ajax_get(request):
+    info = request.GET.get('info')
+    
+    if info == "check":
+        conn = jaydebeapi.connect('com.facebook.presto.jdbc.PrestoDriver',
+                                  'jdbc:presto://localhost:8080/system/information_schema',
+                                  {'user': 'root', 'password': ''})
+        curs = conn.cursor()
+        curs.execute('SELECT * FROM tables')
+        output = curs.fetchall()
+    else:
+        output = ["Please try it again!"]
+
+    data = {}
+    data['info'] = output
+
+    return JsonResponse(data)

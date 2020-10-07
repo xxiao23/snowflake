@@ -1,4 +1,4 @@
-{# Load the tag library #}
+﻿{# Load the tag library #}
 {% load bootstrap4 %}
 
 {# Load CSS and JavaScript #}
@@ -15,31 +15,38 @@
 <div class="container">
     <div class="row">
         <div class="w-100 p-3" style="        background-color: #ffffff;">
-            <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                query
-            </a>
+            <body>
+                <p>Query：<input type="text" id="info" value=""></p>
+                <button id="AJAX_get" type="button">Submit</button>
+            </body>
+
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $("#AJAX_get").click(function(){
+                        var info =  $("#info").val(); 
+                        var data = {"info": info};  
+
+                    $.get(
+                        '{% url 'ajax_get' %}',
+                        data,
+                        function(ret){
+                            var info = ret['info'];
+                            console.log(info);
+                            var table = $("#table tbody");
+                            table.children().remove()
+                            $.each(info, function(idx, elem){
+                                table.append("<tr><td>"+elem+"</td></tr>");
+                            });
+                        })
+                    })
+                })
+            </script>
         </div>
     </div>
 
     <div class="row">
         <div style="height: 800px; background-color: #ffffff;">
-            <div class="collapse" id="collapseExample">
-                <div class="card card-body">
-                    {% if result %}
-                    <table>
-                        {% for table in result %}
-                        <tr>
-                            {% for attr in table %}
-                            <th>{{ attr }}</th>
-                            {% endfor %}
-                        </tr>
-                        {% endfor %}
-                    </table>
-                    {% else %}
-                    <p>No system tables exist.</p>
-                    {% endif %}
-                </div>
-            </div>
+            <p>Results：<table id="table"><tbody></tbody></table></p>
         </div>
     </div>
     </div>
