@@ -1,0 +1,49 @@
+body {
+  margin: 40px;
+}
+
+.wrapper {
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(4, [col] 200px );
+    grid-template-rows: repeat(2, [row] 150px );
+    background-color: #ffffff;
+    border-color: #000000;
+}
+
+.box {
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 100%;
+    border: 5px solid #444;
+}
+
+.a {
+    grid-column: col / span 2;
+    grid-row: row;
+    height: 150px;
+    width: 400px;
+}
+
+.b {
+    grid-column: col 3 / span 2;
+    grid-row: row;
+    width: 800px;
+    height: 150px;
+}
+
+.c {
+    grid-column: col / span 2;
+    grid-row: row 2;
+    width: 400px;
+    height: 1000px;
+}
+
+.d {
+    grid-column: col 3 / span 2;
+    grid-row: row 2;
+    width: 800px;
+    height: 1000px;
+}
