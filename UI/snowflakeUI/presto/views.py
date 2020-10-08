@@ -11,7 +11,7 @@ def index(request):
                               'jdbc:presto://localhost:8080/system/information_schema',
                               {'user': 'root', 'password': ''})
     curs = conn.cursor()
-    curs.execute('SELECT * FROM tables')
+    curs.execute('select table_schema, table_name from tables;')
     result = curs.fetchall()
 
     template = loader.get_template('presto/index.html')
@@ -32,7 +32,7 @@ def ajax_get(request):
                                   'jdbc:presto://localhost:8080/system/information_schema',
                                   {'user': 'root', 'password': ''})
         curs = conn.cursor()
-        curs.execute('SELECT * FROM tables')
+        curs.execute('select table_schema, table_name from tables')
         output = curs.fetchall()
     else:
         output = ["Please try it again!"]

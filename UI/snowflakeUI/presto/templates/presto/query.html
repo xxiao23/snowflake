@@ -13,40 +13,58 @@
 <link rel="stylesheet" type="text/css" href="{% static 'presto/grid.css' %}">
 
 <div class="container">
-    <div class="row">
-        <div class="w-100 p-3" style="        background-color: #ffffff;">
+    <div class="wrapper">
+        <div class="box a">
             <body>
-                <p>Query：<input type="text" id="info" value=""></p>
-                <button id="AJAX_get" type="button">Submit</button>
+                <p>Find dataset：<input type="text" id="info" value=""></p>
+                <button id="AJAX_get" type="button">Search</button>
             </body>
 
             <script type="text/javascript">
                 $(document).ready(function() {
-                    $("#AJAX_get").click(function(){
-                        var info =  $("#info").val(); 
-                        var data = {"info": info};  
+                $("#AJAX_get").click(function(){
+                var info =  $("#info").val();
+                var data = {"info": info};
 
-                    $.get(
-                        '{% url 'ajax_get' %}',
-                        data,
-                        function(ret){
-                            var info = ret['info'];
-                            console.log(info);
-                            var table = $("#table tbody");
-                            table.children().remove()
-                            $.each(info, function(idx, elem){
-                                table.append("<tr><td>"+elem+"</td></tr>");
-                            });
-                        })
-                    })
+                $.get(
+                '{% url 'ajax_get' %}',
+                data,
+                function(ret){
+                var info = ret['info'];
+                console.log(info);
+                var table = $("#table tbody");
+                table.children().remove()
+                let map = new Map();
+                $.each(info, function(idx, elem){
+                    table.append("<tr><td>"+elem+"</td></tr>");
+                    if(map[elem[0]] === undefined)
+                    {
+                         map[elem[0]] = [elem[1]];
+                    }
+                    else
+                         map[elem[0]].push(elem[1]);                
+                    });
+                var myList = $("ul.mylist");
+                for (var s in map){
+                    var li = $("<li>" + s + "</li>").appendTo(myList);
+                    var ul = $("<ul/>").appendTo(li);
+                    for (var i=0; i<map[s].length; i++)
+                    {
+                         ul.append("<li>" + map[s][i] + "</li>");
+                    }
+                } 
+                })
+                })
                 })
             </script>
         </div>
-    </div>
-
-    <div class="row">
-        <div style="height: 800px; background-color: #ffffff;">
-            <p>Results：<table id="table"><tbody></tbody></table></p>
+        <div class="box b">
         </div>
+        <div class="box c">
+            <div class="row">
+                <p><ul class="mylist"></ul></p>
+            </div>
+        </div>
+        <div class="box d"><p><table id="table"><tbody></tbody></table></p></div>
     </div>
-    </div>
+</div>

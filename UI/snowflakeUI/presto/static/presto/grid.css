@@ -1,25 +1,49 @@
 body {
-    margin: 2em 1em;
+  margin: 40px;
 }
 
-h2, p {
-    text-align: left;
+.wrapper {
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(4, [col] 200px );
+    grid-template-rows: repeat(2, [row] 150px );
+    background-color: #ffffff;
+    border-color: #000000;
 }
 
-.example .container, .container-fluid {
-    border: 4px solid #000;
-    margin-bottom: 2em;
+.box {
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 100%;
+    border: 5px solid #444;
 }
 
-.row {
-    border: 4px solid #aaa;
+.a {
+    grid-column: col / span 2;
+    grid-row: row;
+    height: 150px;
+    width: 400px;
 }
 
-.col-sm-6 {
-    border: 4px solid #e2e2e2;
+.b {
+    grid-column: col 3 / span 2;
+    grid-row: row;
+    width: 800px;
+    height: 150px;
 }
 
-strong {
-    color: #007aeb;
-    font-size: 32px;
+.c {
+    grid-column: col / span 2;
+    grid-row: row 2;
+    width: 400px;
+    height: 1000px;
+}
+
+.d {
+    grid-column: col 3 / span 2;
+    grid-row: row 2;
+    width: 800px;
+    height: 1000px;
 }
