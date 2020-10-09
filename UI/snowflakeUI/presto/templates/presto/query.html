@@ -11,54 +11,17 @@
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'presto/grid.css' %}">
+<script type="text/javascript" src="{% static 'presto/presto.js' %}"></script>
 
 <div class="container">
     <div class="wrapper">
         <div class="box a">
-            <body>
-                <p>Find dataset：<input type="text" id="info" value=""></p>
-                <button id="AJAX_get" type="button">Search</button>
-            </body>
-
-            <script type="text/javascript">
-                $(document).ready(function() {
-                $("#AJAX_get").click(function(){
-                var info =  $("#info").val();
-                var data = {"info": info};
-
-                $.get(
-                '{% url 'ajax_get' %}',
-                data,
-                function(ret){
-                var info = ret['info'];
-                console.log(info);
-                var table = $("#table tbody");
-                table.children().remove()
-                let map = new Map();
-                $.each(info, function(idx, elem){
-                    table.append("<tr><td>"+elem+"</td></tr>");
-                    if(map[elem[0]] === undefined)
-                    {
-                         map[elem[0]] = [elem[1]];
-                    }
-                    else
-                         map[elem[0]].push(elem[1]);                
-                    });
-                var myList = $("ul.mylist");
-                for (var s in map){
-                    var li = $("<li>" + s + "</li>").appendTo(myList);
-                    var ul = $("<ul/>").appendTo(li);
-                    for (var i=0; i<map[s].length; i++)
-                    {
-                         ul.append("<li>" + map[s][i] + "</li>");
-                    }
-                } 
-                })
-                })
-                })
-            </script>
+            <p>Find dataset：<input type="text" id="info" value=""></p>
+            <button id="AJAX_get" type="button">Search</button>
         </div>
         <div class="box b">
+            <p>Query：<input type="text" id="info_query" value=""></p>
+            <button id="AJAX_query" type="button">Submit</button>
         </div>
         <div class="box c">
             <div class="row">
@@ -66,5 +29,6 @@
             </div>
         </div>
         <div class="box d"><p><table id="table"><tbody></tbody></table></p></div>
+        <div class="box e"><p><table id="table_e"><tbody></tbody></table></p></div>
     </div>
 </div>

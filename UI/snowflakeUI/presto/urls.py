@@ -7,4 +7,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     url(r'^query/', views.query, name="query"),
     url(r'^ajax_get/', views.ajax_get, name="ajax_get"),
+    url(r'^ajax_query/', views.ajax_query, name="ajax_query"),
+    url(r'^ajax_describe/', views.ajax_describe, name="ajax_describe"),
 ]
