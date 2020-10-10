@@ -55,11 +55,12 @@ $(document).ready(function () {
             data,
             function (ret) {
                 var results = ret['results'];
-                var table = $("#table_e tbody");
-                table.children().remove()
+                var myList_e = $("ul.mylist_e");
+                myList_e.children().remove();
                 $.each(results, function (idx, elem) {
-                    table.append("<tr><td>" + elem + "</td></tr>");
-                })
+                    var li = $("<li>" + elem[0] + " (" + elem[1] + " )"  + "</li>").appendTo(myList_e);
+                    var ul = $("<ul/>").appendTo(li);
+                })                
             })
     });
 });
