@@ -30,7 +30,8 @@ $(document).ready(function () {
     });
 
     $("#AJAX_query").click(function () {
-        var info = $("#info_query").val();
+        var input = $("#info_query").val();
+        var info = input.substr(input.lastIndexOf("\n") + 1);
         var data = { "info": info };
         console.log(info);
 

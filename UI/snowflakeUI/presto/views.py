@@ -44,17 +44,18 @@ def ajax_get(request):
 
 def ajax_query(request):
     info = request.GET.get('info')
-    
-    conn = jaydebeapi.connect('com.facebook.presto.jdbc.PrestoDriver',
-                                  'jdbc:presto://localhost:8080/system',
-                                  {'user': 'root', 'password': ''})
-    curs = conn.cursor()
-    curs.execute(info)
-    output = curs.fetchall()
-
-
     data = {}
-    data['info'] = output
+
+    try:
+        conn = jaydebeapi.connect('com.facebook.presto.jdbc.PrestoDriver',
+                                      'jdbc:presto://localhost:8080/system',
+                                      {'user': 'root', 'password': ''})
+        curs = conn.cursor()
+        curs.execute(info)
+        output = curs.fetchall()
+        data['info'] = output
+    except:
+        data['info'] = [info, "Invalid input!"]
 
     return JsonResponse(data)
 
