@@ -20,7 +20,7 @@ $(document).ready(function () {
                 var myList = $("ul.mylist");
                 myList.children().remove();
                 for (var s in map) {
-                    var li = $("<li>" + s + "</li>").appendTo(myList);
+                    var li = $("<li><b>" + s + "</b></li>").appendTo(myList);
                     var ul = $("<ul/>").appendTo(li);
                     for (var i = 0; i < map[s].length; i++) {
                         ul.append($("<li><a href='#' class="  + s + ">" + map[s][i] + "</a></li>"));
@@ -63,5 +63,9 @@ $(document).ready(function () {
                     var ul = $("<ul/>").appendTo(li);
                 })                
             })
+    });
+
+    $(document).on('click', 'b', function () {
+        $(this).next('ul').toggle();
     });
 });
