@@ -29,15 +29,47 @@ def ajax_get(request):
     
     if info == "check":
         conn = jaydebeapi.connect('com.facebook.presto.jdbc.PrestoDriver',
-                                  'jdbc:presto://localhost:8080/system/information_schema',
+                                  'jdbc:presto://localhost:8080/system',
                                   {'user': 'root', 'password': ''})
         curs = conn.cursor()
-        curs.execute('select table_schema, table_name from tables')
+        curs.execute('select table_schema, table_name from information_schema.tables')
         output = curs.fetchall()
     else:
         output = ["Please try it again!"]
 
     data = {}
     data['info'] = output
+
+    return JsonResponse(data)
+
+def ajax_query(request):
+    info = request.GET.get('info')
+    data = {}
+
+    try:
+        conn = jaydebeapi.connect('com.facebook.presto.jdbc.PrestoDriver',
+                                      'jdbc:presto://localhost:8080/system',
+                                      {'user': 'root', 'password': ''})
+        curs = conn.cursor()
+        curs.execute(info)
+        output = curs.fetchall()
+        data['info'] = output
+    except:
+        data['info'] = [info, "Invalid input!"]
+
+    return JsonResponse(data)
+
+def ajax_describe(request):
+    command = request.GET.get('command')
+    print(command)
+    conn = jaydebeapi.connect('com.facebook.presto.jdbc.PrestoDriver',
+                                  'jdbc:presto://localhost:8080/system',
+                                  {'user': 'root', 'password': ''})
+    curs = conn.cursor()
+    curs.execute(command)
+    output = curs.fetchall()
+
+    data = {}
+    data['results'] = output
 
     return JsonResponse(data)
