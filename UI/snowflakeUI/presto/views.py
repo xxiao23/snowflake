@@ -2,10 +2,11 @@
 from django.shortcuts import render
 from django.template import loader
 from django.conf.urls import url
+from django.contrib.auth.decorators import login_required
 
 import jaydebeapi
 
-
+@login_required
 def index(request):
     conn = jaydebeapi.connect('com.facebook.presto.jdbc.PrestoDriver',
                               'jdbc:presto://localhost:8080/system/information_schema',
@@ -20,6 +21,7 @@ def index(request):
     }
     return HttpResponse(template.render(context, request))
 
+@login_required
 def query(request):
     context = {}
     return render(request, "presto/query.html")
