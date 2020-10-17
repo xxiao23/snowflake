@@ -2,6 +2,7 @@
 from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.decorators import login_required
 
 from . import views
 
@@ -12,6 +13,6 @@ urlpatterns = [
     url(r'^ajax_query/', views.ajax_query, name="ajax_query"),
     url(r'^ajax_describe/', views.ajax_describe, name="ajax_describe"),
     url(r'^login/$',auth_views.LoginView.as_view(template_name="registration/login.html"), name="login"),
-    url(r'^logout/$', auth_views.LogoutView, name='logout'),
+    url(r'^logout/$', auth_views.LogoutView.as_view(template_name="registration/logout.html"), name='logout'),
     url(r'^admin/', admin.site.urls),
 ]
