@@ -1,4 +1,4 @@
-{% extends "admin/base.html" %}
+﻿{% extends "admin/base.html" %}
 
 {% block title %}Login{% endblock %}
 
@@ -8,5 +8,8 @@
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Login</button>
+</form>
+<form action="../signup">
+    <p>New customer? <button type="submit">Sign up</button></p>
 </form>
 {% endblock %}

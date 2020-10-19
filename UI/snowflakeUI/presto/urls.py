@@ -14,5 +14,6 @@ urlpatterns = [
     url(r'^ajax_describe/', views.ajax_describe, name="ajax_describe"),
     url(r'^login/$',auth_views.LoginView.as_view(template_name="registration/login.html"), name="login"),
     url(r'^logout/$', auth_views.LogoutView.as_view(template_name="registration/logout.html"), name='logout'),
+    url(r'^signup/$', views.signup, name='signup'),
     url(r'^admin/', admin.site.urls),
 ]
