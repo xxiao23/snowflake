@@ -52,11 +52,8 @@ export CLASSPATH=<path_to_presto_jdbc_jar>/presto-jdbc-344.jar
     mysql> CREATE DATABASE metastore;
     mysql> USE metastore;
     mysql> CREATE USER 'hiveuser'@'localhost' IDENTIFIED BY 'password';
-    mysql> GRANT SELECT,INSERT,UPDATE,DELETE,ALTER,CREATE ON metastore.* TO 'hiveuser'@'localhost'; 
-    ```
-
-    ```
-    $ $HIVE_HOME/bin/schematool -dbType mysql -initSchema
+    mysql> GRANT GRANT ALL PRIVILEGES ON metastore.* TO 'hiveuser'@'localhost'; 
+    mysql> FLUSH PRIVILEGES;
     ```
 
 4. In addition, you must use below HDFS commands to create /tmp and /user/hive/warehouse (aka hive.metastore.warehouse.dir) and set them chmod g+w before you can create a table in Hive.
@@ -78,7 +75,7 @@ export CLASSPATH=<path_to_presto_jdbc_jar>/presto-jdbc-344.jar
     ```
     <property>
         <name>javax.jdo.option.ConnectionURL</name>
-        <value>jdbc:mysql://localhost/metastore</value>
+        <value>jdbc:mysql://localhost/metastore?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC</value>
     </property>
     <property>
         <name>javax.jdo.option.ConnectionDriverName</name>
@@ -113,16 +110,50 @@ export CLASSPATH=<path_to_presto_jdbc_jar>/presto-jdbc-344.jar
     </property>
     ```
 
-7. Run Hive
+7. Init Metastore Schema
+    ```
+    $ $HIVE_HOME/bin/schematool -dbType mysql -initSchema
+    ```
+
+8. Run Hive
     ```
     $ cd $HIVE_HOME
     $ bin/hive
     ```
 
-8. Run Hive Metastore Service
+9. Run Hive Metastore Service
     ```
     $ cd $HIVE_HOME
     $ bin/hive --service metastore
     ```
 
 ## Running Presto with Hive Connector
+
+1. Configuration
+
+    Create etc/catalog/hive.properties with the following contents to mount the hive-hadoop2 connector as the hive catalog, with the correct host and port for your Hive metastore Thrift service:
+    ```
+    connector.name=hive-hadoop2
+    hive.metastore.uri=thrift://localhost:9083
+    ```
+
+2. HDFS Username and Permissions
+
+    Override this username by setting the HADOOP_USER_NAME system property in the Presto JVM Config, replacing hdfs_user with the appropriate username:
+    ```
+    -DHADOOP_USER_NAME=hiveuser
+    ```
+
+3. Create a table in Hive.
+    ```
+    CREATE TABLE pokes (foo INT, bar STRING);
+    ```
+
+4. Start Presto.
+
+5. Connect to Presto/Hive.
+    ```
+    ./presto --server localhost:8080 --catalog hive --schema default
+    presto>show tables;
+    ```
+    You should be able to see `pokes` table that you created in Hive.
