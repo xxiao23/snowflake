@@ -63,7 +63,7 @@ export CLASSPATH=<path_to_presto_jdbc_jar>/presto-jdbc-344.jar
 
     ```
     $HADOOP_HOME/bin/hdfs dfs -mkdir       /tmp
-    $HADOOP_HOME/bin/hdfs dfs -mkdir       /user/hive/warehouse
+    $HADOOP_HOME/bin/hdfs dfs -mkdir -p    /user/hive/warehouse
     $HADOOP_HOME/bin/hdfs dfs -chmod g+w   /tmp
     $HADOOP_HOME/bin/hdfs dfs -chmod g+w   /user/hive/warehouse
     ```
