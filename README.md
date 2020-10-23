@@ -62,10 +62,10 @@ export CLASSPATH=<path_to_presto_jdbc_jar>/presto-jdbc-344.jar
 4. In addition, you must use below HDFS commands to create /tmp and /user/hive/warehouse (aka hive.metastore.warehouse.dir) and set them chmod g+w before you can create a table in Hive.
 
     ```
-    $HADOOP_HOME/bin/hadoop fs -mkdir       /tmp
-    $HADOOP_HOME/bin/hadoop fs -mkdir       /user/hive/warehouse
-    $HADOOP_HOME/bin/hadoop fs -chmod g+w   /tmp
-    $HADOOP_HOME/bin/hadoop fs -chmod g+w   /user/hive/warehouse
+    $HADOOP_HOME/bin/hdfs dfs -mkdir       /tmp
+    $HADOOP_HOME/bin/hdfs dfs -mkdir       /user/hive/warehouse
+    $HADOOP_HOME/bin/hdfs dfs -chmod g+w   /tmp
+    $HADOOP_HOME/bin/hdfs dfs -chmod g+w   /user/hive/warehouse
     ```
 
 5. Copy hive-default-xml to hive-site.xml
