@@ -9,7 +9,7 @@ export JAVA_HOME=$(/usr/libexec/java_home)
 
 2. Download [Presto ver343](https://repo1.maven.org/maven2/io/prestosql/presto-server/343/presto-server-343.tar.gz) and follow [deployment instructions](https://prestosql.io/docs/current/installation/deployment.html).
 
-3. Download [Presto CLI jar](https://repo1.maven.org/maven2/io/prestosql/presto-cli/344/presto-cli-344-executable.jar) and follow [CLI instructions](https://prestosql.io/docs/current/installation/cli.html#) to access Presto via its commandline interface.
+3. Download [Presto CLI jar](https://repo1.maven.org/maven2/io/prestosql/presto-cli/343/presto-cli-343-executable.jar) and follow [CLI instructions](https://prestosql.io/docs/current/installation/cli.html#) to access Presto via its commandline interface.
 
 ## Access Presto via JDBC
 
@@ -38,6 +38,18 @@ export CLASSPATH=<path_to_presto_jdbc_jar>/presto-jdbc-344.jar
 1. Download [Hadoop 2.10.1](https://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-2.10.1/hadoop-2.10.1.tar.gz).
 
 2. Start Hadoop in [Pseudo Distributed Mode](https://hadoop.apache.org/docs/r2.10.1/hadoop-project-dist/hadoop-common/SingleCluster.html#Pseudo-Distributed_Operation).
+
+### Troubleshooting
+
+**No datanode**
+
+Find the datanode log (you can access the log from localhost:5007) and check if there is any error in the log.
+
+If you see an error about a temp folder, you can remove the temp folder and restart Hadoop.
+```
+$ $HADOOP_HOME/bin/stop-dfs.sh
+$ $HADOOP_HOME/bin/start-dfs.sh
+```
 
 ### Running Hive 2.3.7 Metastore Service
 
@@ -110,6 +122,13 @@ export CLASSPATH=<path_to_presto_jdbc_jar>/presto-jdbc-344.jar
     </property>
     ```
 
+7. Download JDBC
+    Go to mysql page and download the latest jdbc (sign up is required) http://dev.mysql.com/downloads/connector/j/
+    ```
+    $ tar zxvf mysql-connector-java-<version>.tar.gz
+    $ sudo cp mysql-connector-java-<version>/mysql-connector-java-<version>-bin.jar $HIVE_HOME/lib/
+    ```
+
 7. Init Metastore Schema
     ```
     $ $HIVE_HOME/bin/schematool -dbType mysql -initSchema
@@ -157,3 +176,13 @@ export CLASSPATH=<path_to_presto_jdbc_jar>/presto-jdbc-344.jar
     presto>show tables;
     ```
     You should be able to see `pokes` table that you created in Hive.
+
+## Using Hive Connect with AWS S3
+
+1. Configuration
+
+    Add AWS S3 credentials.
+    ```
+    hive.s3.aws-access-key=<aws_access_key>
+    hive.s3.aws-secret-key=<aws_secret_key>
+    ```
