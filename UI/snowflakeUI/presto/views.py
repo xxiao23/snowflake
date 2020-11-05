@@ -7,7 +7,8 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 
 import jaydebeapi
-
+import traceback
+import sys
 @login_required
 def index(request):
     conn = jaydebeapi.connect('com.facebook.presto.jdbc.PrestoDriver',
@@ -52,14 +53,14 @@ def ajax_query(request):
 
     try:
         conn = jaydebeapi.connect('com.facebook.presto.jdbc.PrestoDriver',
-                                      'jdbc:presto://localhost:8080/system',
+                                      'jdbc:presto://localhost:8080/hive/default',
                                       {'user': 'root', 'password': ''})
         curs = conn.cursor()
         curs.execute(info)
         output = curs.fetchall()
         data['info'] = output
-    except:
-        data['info'] = [info, "Invalid input!"]
+    except Exception as e:
+        data['info'] = [info, traceback.format_exception_only(e.__class__, e)]
 
     return JsonResponse(data)
 
