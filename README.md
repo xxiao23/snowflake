@@ -13,7 +13,7 @@ export JAVA_HOME=$(/usr/libexec/java_home)
 
 ## Access Presto via JDBC
 
-1. Download [Presto JDBC jar](https://repo1.maven.org/maven2/io/prestosql/presto-jdbc/344/presto-jdbc-344.jar) and put it in CLASSPATH. Make Sure JDBC jar version matches your presto server version.
+1. Download [Presto JDBC jar](https://repo1.maven.org/maven2/io/prestosql/presto-jdbc/343/presto-jdbc-343.jar) and put it in CLASSPATH. Make Sure JDBC jar version matches your presto server version.
 ```
 export CLASSPATH=<path_to_presto_jdbc_jar>/presto-jdbc-344.jar
 ```
@@ -38,6 +38,32 @@ export CLASSPATH=<path_to_presto_jdbc_jar>/presto-jdbc-344.jar
 1. Download [Hadoop 2.10.1](https://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-2.10.1/hadoop-2.10.1.tar.gz).
 
 2. Start Hadoop in [Pseudo Distributed Mode](https://hadoop.apache.org/docs/r2.10.1/hadoop-project-dist/hadoop-common/SingleCluster.html#Pseudo-Distributed_Operation).
+
+### Access Aliyun OSS Via Hadoop
+
+1. Add following lines in $HADOOP_HOME/etc/hadoop/core-site.xml.
+
+    ```
+    <property>
+        <name>fs.oss.impl</name>
+        <value>org.apache.hadoop.fs.aliyun.oss.AliyunOSSFileSystem</value>
+    </property>
+
+    <property>
+        <name>fs.oss.endpoint</name>
+        <value>oss-us-west-1.aliyuncs.com</value>
+    </property>
+
+    <property>
+        <name>fs.oss.accessKeyId</name>
+        <value>aliyun-access-key-id</value>
+    </property>
+
+    <property>
+        <name>fs.oss.accessKeySecret</name>
+        <value>aliyun-access-key-secrect</value>
+    </property>
+    ```
 
 ### Troubleshooting
 
@@ -150,7 +176,7 @@ $ $HADOOP_HOME/bin/start-dfs.sh
 
 1. Configuration
 
-    Create etc/catalog/hive.properties with the following contents to mount the hive-hadoop2 connector as the hive catalog, with the correct host and port for your Hive metastore Thrift service:
+    Create $PRESTO_HOME/etc/catalog/hive.properties with the following contents to mount the hive-hadoop2 connector as the hive catalog, with the correct host and port for your Hive metastore Thrift service:
     ```
     connector.name=hive-hadoop2
     hive.metastore.uri=thrift://localhost:9083
@@ -177,11 +203,9 @@ $ $HADOOP_HOME/bin/start-dfs.sh
     ```
     You should be able to see `pokes` table that you created in Hive.
 
-## Using Hive Connect with AWS S3
+## Using Hive Connector with AWS S3
 
-1. Configuration
-
-    Add AWS S3 credentials.
+1. Add AWS S3 credentials in $PRESTO_HOME/etc/catalog/hive.properties.
     ```
     hive.s3.aws-access-key=<aws_access_key>
     hive.s3.aws-secret-key=<aws_secret_key>
