@@ -8,6 +8,8 @@ export JAVA_HOME=$(/usr/libexec/java_home)
 ```
 
 2. Download [Presto ver343](https://repo1.maven.org/maven2/io/prestosql/presto-server/343/presto-server-343.tar.gz) and follow [deployment instructions](https://prestosql.io/docs/current/installation/deployment.html).
+Modify `node.data-dir` value in `etc/node.properties` to be a path that you have access.
+
 
 3. Download [Presto CLI jar](https://repo1.maven.org/maven2/io/prestosql/presto-cli/343/presto-cli-343-executable.jar) and follow [CLI instructions](https://prestosql.io/docs/current/installation/cli.html#) to access Presto via its commandline interface.
 
