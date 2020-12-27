@@ -40,6 +40,14 @@ export CLASSPATH=<path_to_presto_jdbc_jar>/presto-jdbc-344.jar
 1. Download [Hadoop 2.10.1](https://www.apache.org/dyn/closer.cgi/hadoop/common/hadoop-2.10.1/hadoop-2.10.1.tar.gz).
 
 2. Start Hadoop in [Pseudo Distributed Mode](https://hadoop.apache.org/docs/r2.10.1/hadoop-project-dist/hadoop-common/SingleCluster.html#Pseudo-Distributed_Operation).
+   In the Pseudo Distributed Mode instructions, where it says
+   ```
+   bin/hdfs dfs -put etc/hadoop /input
+   ```
+   it actually needs to be
+   ```
+   bin/hdfs dfs -put etc/hadoop /input
+   ```
 
 ### Access Aliyun OSS Via Hadoop
 
