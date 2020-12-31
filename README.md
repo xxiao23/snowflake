@@ -89,22 +89,9 @@ $ $HADOOP_HOME/bin/start-dfs.sh
 
 ### Running Hive 2.3.7 Metastore Service
 
-1. Download [MySql](https://dev.mysql.com/doc/refman/8.0/en/installing.html) in your environment.
+1. Download [Hive 2.3.7](https://mirror.bit.edu.cn/apache/hive/hive-2.3.7/). 
 
-2. Download [Hive 2.3.7](https://mirror.bit.edu.cn/apache/hive/hive-2.3.7/). 
-
-3. Set up MySQL as the metastore DB.
-    ```
-    $ cd $HIVE_HOME/
-    $ mysql
-    mysql> CREATE DATABASE metastore;
-    mysql> USE metastore;
-    mysql> CREATE USER 'hiveuser'@'localhost' IDENTIFIED BY 'password';
-    mysql> GRANT GRANT ALL PRIVILEGES ON metastore.* TO 'hiveuser'@'localhost'; 
-    mysql> FLUSH PRIVILEGES;
-    ```
-
-4. In addition, you must use below HDFS commands to create /tmp and /user/hive/warehouse (aka hive.metastore.warehouse.dir) and set them chmod g+w before you can create a table in Hive.
+2. Create /tmp and /user/hive/warehouse (aka hive.metastore.warehouse.dir) and set them chmod g+w before you can create a table in Hive.
 
     ```
     $HADOOP_HOME/bin/hdfs dfs -mkdir       /tmp
@@ -113,34 +100,14 @@ $ $HADOOP_HOME/bin/start-dfs.sh
     $HADOOP_HOME/bin/hdfs dfs -chmod g+w   /user/hive/warehouse
     ```
 
-5. Copy hive-default-xml to hive-site.xml
+3. Copy hive-default-xml to hive-site.xml
     ```
     $ cd $HIVE_HOME/conf
     $ cp hive-default.xml.template hive-site.xml
     ```
 
-6. Edit following lines in hive-site.xml
+4. Edit following lines in hive-site.xml
     ```
-    <property>
-        <name>javax.jdo.option.ConnectionURL</name>
-        <value>jdbc:mysql://localhost/metastore?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC</value>
-    </property>
-    <property>
-        <name>javax.jdo.option.ConnectionDriverName</name>
-        <value>com.mysql.jdbc.Driver</value>
-    </property>
-    <property>
-        <name>javax.jdo.option.ConnectionUserName</name>
-        <value>hiveuser</value>
-    </property>
-    <property>
-        <name>javax.jdo.option.ConnectionPassword</name>
-        <value>password</value>
-    </property>
-    <property>
-        <name>datanucleus.fixedDatastore</name>
-        <value>false</value>
-    </property>
     <property>
         <name>hive.exec.local.scratchdir</name>
         <value>/tmp/hive</value>
@@ -158,25 +125,18 @@ $ $HADOOP_HOME/bin/start-dfs.sh
     </property>
     ```
 
-7. Download JDBC
-    Go to mysql page and download the latest jdbc (sign up is required) http://dev.mysql.com/downloads/connector/j/
+5. Init Metastore Schema
     ```
-    $ tar zxvf mysql-connector-java-<version>.tar.gz
-    $ sudo cp mysql-connector-java-<version>/mysql-connector-java-<version>-bin.jar $HIVE_HOME/lib/
+    $ $HIVE_HOME/bin/schematool -dbType derby -initSchema
     ```
 
-7. Init Metastore Schema
-    ```
-    $ $HIVE_HOME/bin/schematool -dbType mysql -initSchema
-    ```
-
-8. Run Hive
+6. Run Hive
     ```
     $ cd $HIVE_HOME
     $ bin/hive
     ```
 
-9. Run Hive Metastore Service
+7. Run Hive Metastore Service
     ```
     $ cd $HIVE_HOME
     $ bin/hive --service metastore
