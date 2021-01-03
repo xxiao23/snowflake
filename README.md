@@ -156,7 +156,7 @@ $ $HADOOP_HOME/bin/start-dfs.sh
 
     Override this username by setting the HADOOP_USER_NAME system property in the Presto JVM Config, replacing hdfs_user with the appropriate username:
     ```
-    -DHADOOP_USER_NAME=hiveuser
+    -DHADOOP_USER_NAME=<hdfs_user>
     ```
 
 3. Create a table in Hive.
