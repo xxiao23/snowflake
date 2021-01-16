@@ -1,5 +1,67 @@
 # F1
+## Install Superset for Development
+### Backend
+1. Install Python (versions > 3.7).
+2. Clone Superset repo.
+```
+git clone https://github.com/xxiao23/superset
+cd superset
+```
+3. Install Python Virtual Environment
+```
+pip install virtualenv
+```
+4. Install and initialize backend
+```bash
+# Create a virtual environemnt and activate it (recommended)
+python3 -m venv venv # setup a python3 virtualenv
+source venv/bin/activate
 
+# Install external dependencies
+pip install -r requirements/local.txt
+
+# Install Superset in editable (development) mode
+pip install -e .
+
+# Create an admin user in your metadata database
+superset fab create-admin
+
+# Initialize the database
+superset db upgrade
+
+# Create default roles and permissions
+superset init
+
+# Load some data to play with
+superset load_examples
+
+# Start the Flask dev web server from inside your virtualenv.
+# Note that your page may not have css at this point.
+# See instructions below how to build the front-end assets.
+FLASK_ENV=development superset run -p 8088 --with-threads --reload --debugger
+```
+### Frontend
+1. Prerequisite (nvm and node).
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.0/install.sh | bash
+
+cd superset-frontend
+nvm install
+nvm use
+```
+2. Install dependencies.
+```bash
+# From the root of the repository
+cd superset-frontend
+
+# Install dependencies from `package-lock.json`
+npm ci
+```
+3. Run dev server.
+```bash
+# Start the dev server at http://localhost:9000
+npm run dev-server
+```
 ## Running Presto
 
 1. Install [Java SDK 11](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) and set JAVA_HOME.
