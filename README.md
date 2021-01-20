@@ -57,8 +57,10 @@ cd superset-frontend
 # Install dependencies from `package-lock.json`
 npm ci
 ```
-3. Run dev server.
+3. Build and run dev server.
 ```bash
+# build assets in development mode
+npm run build-dev
 # Start the dev server at http://localhost:9000
 npm run dev-server
 ```
