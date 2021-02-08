@@ -37,8 +37,9 @@ superset load_examples
 
 # Start the Flask dev web server from inside your virtualenv.
 # Note that your page may not have css at this point.
-# See instructions below how to build the front-end assets.
+# See instructions below how to build the front-end assets. You need to specify the host option --host=0.0.0.0 to make it visible for other network. 
 FLASK_ENV=development superset run -p 8088 --with-threads --reload --debugger
+
 ```
 ### Frontend
 1. Prerequisite (nvm and node).
