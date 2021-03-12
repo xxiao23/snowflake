@@ -65,6 +65,18 @@ npm run build-dev
 # Start the dev server at http://localhost:9000
 npm run dev-server
 ```
+
+### Translation
+1.  Convert the PO file into a JSON file.
+```bash
+npm install -g po2json
+./scripts/po2json.sh
+```
+2. Compile translation catalogs into binary MO files.
+```bash
+pybabel compile -d superset/translations
+```
+
 ## Running Presto
 
 1. Install [Java SDK 11](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) and set JAVA_HOME.
