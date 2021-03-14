@@ -77,6 +77,11 @@ npm install -g po2json
 pybabel compile -d superset/translations
 ```
 
+### Connect to Azure sql database
+1. Install the ODBC driver ([Linux](https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15), [macOS](https://docs.microsoft.com/en-us/sql/connect/odbc/linux-mac/install-microsoft-odbc-driver-sql-server-macos?view=sql-server-ver15))
+2. pip install pyodbc
+3. mssql+pyodbc://UserName:Password@HostIP,Port/DBName?driver=ODBC Driver 17 for SQL Server
+
 ## Running Presto
 
 1. Install [Java SDK 11](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) and set JAVA_HOME.
